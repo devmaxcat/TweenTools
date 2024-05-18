@@ -1,5 +1,7 @@
 local tool = {}
 
+tool.Version = '0.1.0'
+
 TS = game:GetService('TweenService')
 
 function tool.EasyTween(part, tweeninfo, goal) 
