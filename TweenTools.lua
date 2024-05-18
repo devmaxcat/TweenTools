@@ -3,7 +3,9 @@ local tool = {}
 TS = game:GetService('TweenService')
 
 function tool.EasyTween(part, tweeninfo, goal) 
-	TS:Create(part, tweeninfo, goal):Play()
+	local Tween = TS:Create(part, tweeninfo, goal)
+	Tween:Play()
+	return Tween
 end
 
 function tool.FromToTween(part, tweeninfo, start, ending)
@@ -12,7 +14,9 @@ function tool.FromToTween(part, tweeninfo, start, ending)
 
 	end
 
-	TS:Create(part, tweeninfo, ending):Play()
+	local tween = TS:Create(part, tweeninfo, ending)
+	tween:Play()
+	return tween
 end
 
 -- Tween from goal, back to original value before tween
@@ -26,31 +30,32 @@ function tool.BackTween(part, tweeninfo, goal)
 	end
 
 
-	TS:Create(part, tweeninfo, currentValues):Play()
+	local tween = TS:Create(part, tweeninfo, currentValues)
+	tween:Play()
+	return tween
 end
 
 -- Yields for the duration of the tween
-function tool.YieldTween(instanceType, parent, tweeninfo, goal)
-	local newInstance = Instance.new(instanceType)
-	TS:Create(newInstance, tweeninfo, goal):Play()
-	task.spawn(function()
-		wait(tweeninfo.Time)
+function tool.YieldTween(instance, tweeninfo, goal)
 
-	end)
+	local tween = TS:Create(instance, tweeninfo, goal)
+	tween:Play()
+	wait(tweeninfo.Time)
 
-	return newInstance
+	return tween
 
 end
 -- Runs the given function after the tween is completed
 function tool.CallbackTween(part, tweeninfo, goal, callback)
 	local tween = TS:Create(part, tweeninfo, goal)
 	tween:Play()
-	tween.Completed:Connect(function()
+	tween.Completed:Connect(function(part, tweeninfo, goal)
 		callback()
 	end)
+	return tween
 end
 -- Tweens all children (or descendants) of an Instance of a specific type (can include the parent Instance as well)
-function tool.TweenChildrenOfType(parent, tweeninfo, goal, className, recursive, includeParent)
+function tool.TweenChildrenOfType(parent : Instance, tweeninfo : TweenInfo, goal, className : string, recursive : BoolValue, includeParent : BoolValue)
 	local c;
 	if (recursive) then
 		c = parent:GetDescendants()
