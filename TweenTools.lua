@@ -15,13 +15,13 @@ function tool.New()
     return this
 end
 
-function tool.EasyTween(part, tweeninfo, goal) 
+function tool:EasyTween(part, tweeninfo, goal) 
 	local Tween = TS:Create(part, tweeninfo, goal)
 	Tween:Play()
 	return Tween
 end
 
-function tool.FromToTween(part, tweeninfo, start, ending)
+function tool:FromToTween(part, tweeninfo, start, ending)
 	for i,v in pairs(start) do
 		part[i] = start[i]
 
@@ -33,7 +33,7 @@ function tool.FromToTween(part, tweeninfo, start, ending)
 end
 
 -- Tween from goal, back to original value before tween
-function tool.BackTween(part, tweeninfo, goal)
+function tool:BackTween(part, tweeninfo, goal)
 	local currentValues = {}
 
 	for i,v in pairs(goal) do
@@ -49,7 +49,7 @@ function tool.BackTween(part, tweeninfo, goal)
 end
 
 -- Yields for the duration of the tween
-function tool.YieldTween(instance, tweeninfo, goal)
+function tool:YieldTween(instance, tweeninfo, goal)
 
 	local tween = TS:Create(instance, tweeninfo, goal)
 	tween:Play()
@@ -59,7 +59,7 @@ function tool.YieldTween(instance, tweeninfo, goal)
 
 end
 -- Runs the given function after the tween is completed
-function tool.CallbackTween(part, tweeninfo, goal, callback)
+function tool:CallbackTween(part, tweeninfo, goal, callback)
 	local tween = TS:Create(part, tweeninfo, goal)
 	tween:Play()
 	tween.Completed:Connect(function(part, tweeninfo, goal)
@@ -68,7 +68,7 @@ function tool.CallbackTween(part, tweeninfo, goal, callback)
 	return tween
 end
 -- Tweens all children (or descendants) of an Instance of a specific type (can include the parent Instance as well)
-function tool.TweenChildrenOfType(parent : Instance, tweeninfo : TweenInfo, goal, className : string, recursive : BoolValue, includeParent : BoolValue)
+function tool:TweenChildrenOfType(parent : Instance, tweeninfo : TweenInfo, goal, className : string, recursive : BoolValue, includeParent : BoolValue)
 	local c;
 	if (recursive) then
 		c = parent:GetDescendants()
@@ -95,7 +95,7 @@ end
 
 -- Not actually a Tween but was helpful if you want to combine this and the other tween methods in this module.
 -- Functionally similar to TweenChildrenOfType but runs the given function with the instance passed as a parameter
-function tool.FunctionChildrenOfType(parent, func, className, recursive, includeParent)
+function tool:FunctionChildrenOfType(parent, func, className, recursive, includeParent)
 	local c;
 	if (recursive) then
 		c = parent:GetDescendants()
