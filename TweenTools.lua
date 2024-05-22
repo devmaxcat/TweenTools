@@ -4,6 +4,17 @@ tool.Version = '0.1.0'
 
 TS = game:GetService('TweenService')
 
+tool.__index = tool
+
+function tool.New()
+	  local this = {}
+    setmetatable(this, tool)
+
+    this.ShouldAutoPlay = true
+
+    return this
+end
+
 function tool.EasyTween(part, tweeninfo, goal) 
 	local Tween = TS:Create(part, tweeninfo, goal)
 	Tween:Play()
